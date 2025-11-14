@@ -32,6 +32,7 @@ class DataModel {
   /// Map{} to model
   factory DataModel.fromMap(Map<String, dynamic> json) {
     return DataModel(
+      id: json["_id"],
       productName: json["ProductName"],
       productCode: json["ProductCode"],
       img: json["Img"],
