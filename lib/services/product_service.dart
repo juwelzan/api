@@ -19,7 +19,7 @@ class ProductService {
         throw Exception("Failed to fetch products");
       }
     } catch (e) {
-      throw Exception("Something Wrong");
+      throw Exception("Something Wrong fatch");
     }
   }
 
@@ -50,7 +50,7 @@ class ProductService {
   }
 
   /// deletProduct
-  Future<bool> deleteProduct(String productCode) async {
+  static Future<bool> deleteProduct(String productCode) async {
     try {
       final url = Uri.parse(Apis.deleteProduct(productCode));
       final response = await http.get(url);

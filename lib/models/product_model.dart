@@ -11,6 +11,9 @@ class ProductModel {
 
   //map{} to model
   factory ProductModel.fromMap(Map<String, dynamic> map) {
-    return ProductModel(status: map["status"], data: map["data"]);
+    return ProductModel(
+      status: map["status"],
+      data: (map["data"] as List).map((p) => DataModel.fromMap(p)).toList(),
+    );
   }
 }

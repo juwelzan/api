@@ -38,6 +38,7 @@ dependencies:
   get: any
   flutter_screenutil: any
   http: ^1.6.0
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
