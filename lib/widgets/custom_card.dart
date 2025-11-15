@@ -4,6 +4,7 @@ import 'package:api/models/data_model.dart';
 import 'package:api/screens/product_view_screen.dart';
 import 'package:api/widgets/product_edit_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,9 +62,19 @@ class CustomCard extends StatelessWidget {
                       topLeft: Radius.circular(10.sp),
                       topRight: Radius.circular(10.sp),
                     ),
-                    image: DecorationImage(
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.sp),
+                      topRight: Radius.circular(10.sp),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: img,
                       fit: BoxFit.cover,
-                      image: NetworkImage(img),
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, _) =>
+                          Center(child: Icon(Icons.broken_image, size: 40)),
                     ),
                   ),
                 ),

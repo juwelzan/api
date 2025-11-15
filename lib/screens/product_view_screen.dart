@@ -1,4 +1,5 @@
 import 'package:api/models/data_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -22,9 +23,17 @@ class ProductViewScreen extends StatelessWidget {
             expandedHeight: 300,
             automaticallyImplyLeading: false,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(dataModel.img, fit: BoxFit.cover),
+              background: CachedNetworkImage(
+                imageUrl: dataModel.img,
+                fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, _) =>
+                    Center(child: Icon(Icons.broken_image, size: 40)),
+              ),
             ),
           ),
+
           SliverGap(20.h),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 10.sp),
