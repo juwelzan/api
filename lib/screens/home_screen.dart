@@ -44,7 +44,12 @@ class HomeScreen extends StatelessWidget {
             controller.getProduct();
           },
           child: GridView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 6.sp),
+            padding: EdgeInsets.only(
+              left: 6.w,
+              right: 6.w,
+              bottom: 100.h,
+              top: 10.h,
+            ),
             itemCount: controller.allProduct.length,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 300,

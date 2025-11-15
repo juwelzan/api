@@ -32,6 +32,11 @@ class ProductAddController extends GetxController {
       );
       await ProductService.createProduct(model);
       controller.getProduct();
+      nameController.value.text = "";
+      imgController.value.text = "";
+      qtyController.value.text = "";
+      unitController.value.text = "";
+      totalController.value.text = "";
     } else {}
   }
 }
