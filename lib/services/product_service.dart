@@ -29,10 +29,10 @@ class ProductService {
       final url = Uri.parse(Apis.createProduct);
       final response = await http.post(
         url,
-        headers: {"Content-Typev": "application/json"},
+        headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "ProductName": data.productName,
-          "ProductCode": DateTime.now().microsecondsSinceEpoch,
+          "ProductCode": data.productCode,
           "Img": data.img,
           "Qty": data.qty,
           "UnitPrice": data.unitPrice,
@@ -70,7 +70,7 @@ class ProductService {
       final url = Uri.parse(Apis.updateProduct(id));
       final response = await http.post(
         url,
-        headers: {"Content-Typev": "application/json"},
+        headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "ProductName": data.productName,
           "Img": data.img,

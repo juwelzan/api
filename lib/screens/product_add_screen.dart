@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:api/controllers/product_add_controller.dart';
 import 'package:api/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,17 @@ class ProductAddScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xff050C9C),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Image.asset(
+            "assets/previous.png",
+            width: 30.sp,
+            color: Colors.white,
+          ),
+        ),
         title: Text("Add Product"),
         backgroundColor: Color(0xff050C9C),
         titleTextStyle: TextStyle(
@@ -81,7 +94,10 @@ class ProductAddScreen extends StatelessWidget {
                     borderRadius: BorderRadiusGeometry.circular(5.sp),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  await controller.add();
+                  Navigator.pop(context);
+                },
                 child: Text("Save"),
               ),
             ),

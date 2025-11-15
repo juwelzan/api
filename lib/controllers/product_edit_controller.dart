@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 final controller = Get.put<Controller>(Controller());
 
-class ProductAddController extends GetxController {
+class ProductEditController extends GetxController {
   Rx<TextEditingController> nameController = TextEditingController().obs;
   Rx<TextEditingController> imgController = TextEditingController().obs;
   Rx<TextEditingController> qtyController = TextEditingController().obs;
@@ -20,18 +20,16 @@ class ProductAddController extends GetxController {
               totalController.value.text.isNotEmpty)
           .obs;
 
-  Future<void> add() async {
-    if (isNotEmpty.value) {
-      DataModel model = DataModel(
-        productName: nameController.value.text,
-        productCode: DateTime.now().microsecondsSinceEpoch,
-        img: imgController.value.text,
-        qty: int.parse(qtyController.value.text),
-        unitPrice: int.parse(unitController.value.text),
-        totalPrice: int.parse(totalController.value.text),
-      );
-      await ProductService.createProduct(model);
-      controller.getProduct();
-    } else {}
+  Future<void> editProduct(String id) async {
+    DataModel dataModel = DataModel(
+      productName: nameController.value.text,
+      productCode: 1213234,
+      img: imgController.value.text,
+      qty: int.parse(qtyController.value.text),
+      unitPrice: int.parse(unitController.value.text),
+      totalPrice: int.parse(totalController.value.text),
+    );
+    await ProductService.updateProduct(dataModel, id);
+    await controller.getProduct();
   }
 }

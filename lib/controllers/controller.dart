@@ -19,7 +19,9 @@ class Controller extends GetxController {
 
     if (data.isNotEmpty) {
       allProduct.value = data;
-      Future.delayed(Duration(seconds: 2), () => isLoding.value = false);
+      Future.delayed(Duration(seconds: 1), () {
+        isLoding.value = false;
+      });
     }
   }
 

@@ -1,4 +1,8 @@
+import 'package:api/controllers/controller.dart';
 import 'package:api/controllers/state_controller.dart';
+import 'package:api/models/data_model.dart';
+import 'package:api/screens/product_view_screen.dart';
+import 'package:api/widgets/product_edit_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +16,9 @@ class CustomCard extends StatelessWidget {
   final String img;
   final String productName;
   final String price;
+  final String id;
+  final DataModel model;
+
   CustomCard({
     super.key,
     required this.isopen,
@@ -19,21 +26,29 @@ class CustomCard extends StatelessWidget {
     required this.img,
     required this.productName,
     required this.price,
+    required this.id,
+    required this.model,
   });
   final stateControl = Get.put<StateController>(StateController());
+  final controller = Get.put<Controller>(Controller());
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xffE9B3FB),
+        color: Color(0xff62109F),
         borderRadius: BorderRadius.circular(10.sp),
       ),
       child: Stack(
         children: [
           GestureDetector(
             onTap: () {
-              print("object");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductViewScreen(dataModel: model),
+                ),
+              );
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -64,7 +79,10 @@ class CustomCard extends StatelessWidget {
                           child: AutoSizeText(
                             productName,
                             maxLines: 3,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         Gap(6.h),
@@ -77,7 +95,10 @@ class CustomCard extends StatelessWidget {
                                 "\$$price",
                                 maxLines: 1,
 
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                             GestureDetector(
@@ -112,7 +133,7 @@ class CustomCard extends StatelessWidget {
               visible: stateControl.isOpen.value == isopen,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black45,
+                  color: Colors.black87,
                   borderRadius: BorderRadius.circular(10.sp),
                 ),
                 child: Column(
@@ -129,68 +150,100 @@ class CustomCard extends StatelessWidget {
                       ],
                     ),
                     Gap(50.h),
-                    ElevatedButton(
-                      onPressed: () {
-                        showCupertinoModalPopup(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                textAlign: TextAlign.center,
-                                "Delete Item",
-                              ),
+                    Builder(
+                      builder: (ctx) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: ctx,
+                              builder: (context) {
+                                return ProductEditDialog(context, model);
+                              },
                             );
+                            stateControl.isOpen.value = 123460908765432;
                           },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff49FF00),
+                            foregroundColor: Colors.black,
+                            textStyle: TextStyle(
+                              fontSize: 15.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.sp),
+                            ),
+                          ),
+                          child: Text("Edit"),
                         );
-                        stateControl.isOpen.value = 123460908765432;
                       },
-                      child: Text("Edit"),
                     ),
                     Gap(10.h),
-                    ElevatedButton(
-                      onPressed: () {
-                        showCupertinoModalPopup(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                textAlign: TextAlign.center,
-                                "Delete Item",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              content: Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: Color(0xffE62727),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("No"),
+                    Builder(
+                      builder: (ctx) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: ctx,
+                              builder: (_) {
+                                return AlertDialog(
+                                  title: Text(
+                                    textAlign: TextAlign.center,
+                                    "Delete Item",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: Color(0xffE62727),
-                                      ),
-                                      onPressed: () {},
-                                      child: Text("Yes"),
+                                  ),
+                                  content: Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.black,
+                                            backgroundColor: Color(0xff49FF00),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("No"),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Color(0xffE62727),
+                                          ),
+                                          onPressed: () {
+                                            controller.deleteProduct(id);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("Yes"),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  ),
+                                );
+                              },
                             );
+                            stateControl.isOpen.value = 123460908765432;
                           },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xffE62727),
+                            foregroundColor: Colors.white,
+                            textStyle: TextStyle(
+                              fontSize: 15.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.sp),
+                            ),
+                          ),
+                          child: Text("Delete"),
                         );
-                        stateControl.isOpen.value = 123460908765432;
                       },
-                      child: Text("Delete"),
                     ),
                   ],
                 ),
