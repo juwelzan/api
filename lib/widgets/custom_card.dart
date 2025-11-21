@@ -19,6 +19,7 @@ class CustomCard extends StatelessWidget {
   final String price;
   final String id;
   final DataModel model;
+  final int tag;
 
   CustomCard({
     super.key,
@@ -29,6 +30,7 @@ class CustomCard extends StatelessWidget {
     required this.price,
     required this.id,
     required this.model,
+    required this.tag,
   });
   final stateControl = Get.put<StateController>(StateController());
   final controller = Get.put<Controller>(Controller());
@@ -47,7 +49,8 @@ class CustomCard extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProductViewScreen(dataModel: model),
+                  builder: (context) =>
+                      ProductViewScreen(dataModel: model, tag: tag),
                 ),
               );
             },
@@ -68,13 +71,16 @@ class CustomCard extends StatelessWidget {
                       topLeft: Radius.circular(10.sp),
                       topRight: Radius.circular(10.sp),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: img,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, _) =>
-                          Center(child: Icon(Icons.broken_image, size: 40)),
+                    child: Hero(
+                      tag: tag,
+                      child: CachedNetworkImage(
+                        imageUrl: img,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, _) =>
+                            Center(child: Icon(Icons.broken_image, size: 40)),
+                      ),
                     ),
                   ),
                 ),

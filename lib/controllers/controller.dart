@@ -17,12 +17,10 @@ class Controller extends GetxController {
     isLoding.value = true;
     final data = await ProductService.fetchProducts();
 
-    if (data.isNotEmpty) {
-      allProduct.value = data;
-      Future.delayed(Duration(seconds: 1), () {
-        isLoding.value = false;
-      });
-    }
+    allProduct.value = data;
+    Future.delayed(Duration(seconds: 1), () {
+      isLoding.value = false;
+    });
   }
 
   Future<void> deleteProduct(String pID) async {

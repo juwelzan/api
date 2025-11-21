@@ -75,6 +75,7 @@ class HomeScreen extends StatelessWidget {
                         productName: data.productName,
                         price: data.unitPrice.toString(),
                         id: data.id.toString(),
+                        tag: index,
                       ),
                     );
                   }),

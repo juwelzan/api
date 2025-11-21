@@ -6,11 +6,17 @@ import 'package:gap/gap.dart';
 
 class ProductViewScreen extends StatelessWidget {
   final DataModel dataModel;
-  const ProductViewScreen({super.key, required this.dataModel});
+  final int tag;
+  const ProductViewScreen({
+    super.key,
+    required this.dataModel,
+    required this.tag,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff4e72ff),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -23,13 +29,16 @@ class ProductViewScreen extends StatelessWidget {
             expandedHeight: 300,
             automaticallyImplyLeading: false,
             flexibleSpace: FlexibleSpaceBar(
-              background: CachedNetworkImage(
-                imageUrl: dataModel.img,
-                fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, _) =>
-                    Center(child: Icon(Icons.broken_image, size: 40)),
+              background: Hero(
+                tag: tag,
+                child: CachedNetworkImage(
+                  imageUrl: dataModel.img,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, _) =>
+                      Center(child: Icon(Icons.broken_image, size: 40)),
+                ),
               ),
             ),
           ),
@@ -61,6 +70,18 @@ class ProductViewScreen extends StatelessWidget {
                   child: ListTile(
                     title: Text("Total Price"),
                     subtitle: Text(dataModel.totalPrice.toString()),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    title: Text("Product Code"),
+                    subtitle: Text(dataModel.productCode.toString()),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    title: Text("Product id"),
+                    subtitle: Text(dataModel.id.toString()),
                   ),
                 ),
               ]),
